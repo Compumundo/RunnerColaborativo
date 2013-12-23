@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.me.mygdxgame.assets.Assets;
 
 public class Juego implements ApplicationListener {
 	private OrthographicCamera camera;
@@ -37,6 +39,9 @@ public class Juego implements ApplicationListener {
 		•  LOG_INFO:  This prints error and info logs.
 		•  LOG_DEBUG: This prints error, info, and debug logs */
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
+		
+		// Load assets
+		Assets.instance.init(new AssetManager());
 		
 		worldController = new WorldController();
 		worldRenderer = new WorldRenderer(worldController);
@@ -87,6 +92,7 @@ public class Juego implements ApplicationListener {
 	public void dispose() {
 		Gdx.app.log("Dispose Method", "Calling to dispose method");
 		worldRenderer.dispose();
+		Assets.instance.dispose();
 //		batch.dispose();
 //		texture.dispose();
 	}
@@ -157,6 +163,7 @@ public class Juego implements ApplicationListener {
 
 	@Override
 	public void resume() { //This is a Android event only
+		Assets.instance.init(new AssetManager());
 		paused = false;
 		Gdx.app.log("Resume method", "Calling to resume method");
 	}
